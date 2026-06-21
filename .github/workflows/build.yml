@@ -27,7 +27,7 @@ jobs:
       run: npm install @capacitor/core @capacitor/cli @capacitor/android
 
     - name: Initialize Capacitor Config
-      run: npx cap init "Yemen AI" "com.mohammadalarem.yemenai" --web-dir dist
+      run: rm -f capacitor.config.ts && npx cap init "Yemen AI" "com.mohammadalarem.yemenai" --web-dir dist
 
     - name: Build Web App
       run: npm run build --if-present

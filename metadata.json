@@ -1,0 +1,6 @@
+{
+  "name": "يمن AI",
+  "description": "أول مساعد ذكاء اصطناعي يمني مصمم خصيصاً للمستخدمين اليمنيين لفهم الثقافة واللهجات اليمنية وتقديم حلول ذكية وعملية.",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

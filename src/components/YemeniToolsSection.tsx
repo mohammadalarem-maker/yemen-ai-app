@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { AppSettings } from "../types";
-import { 
-  Languages, FileText, GraduationCap, Briefcase, Copy, Check, 
-  Send, Calculator, FileCheck, Coins, RefreshCw, Sparkles, BookOpen, AlertCircle
+import {
+  Languages, FileText, GraduationCap, Briefcase, Copy, Check,
+  FileCheck, Coins, Sparkles
 } from "lucide-react";
 
 interface YemeniToolsSectionProps {
-  settings: AppSettings;
+  settings?: AppSettings;
 }
 
 export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps) {
   const [activeTab, setActiveTab] = useState<"dialect" | "letters" | "students" | "business">("dialect");
-  const isAr = settings.language === "ar";
+  const isAr = settings?.language === "ar" ?? true;
 
   // General state
   const [loading, setLoading] = useState(false);
@@ -31,14 +31,15 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
 
   // C. Student Assistant values
   const [studentTask, setStudentTask] = useState("summary");
-  const [gradeLevel, setGradeLevel] = useState("مرحلة أساسية (تاسع)");
+  const [gradeLevel, setGradeLevel] = useState("أساسي");
   const [lessonMaterial, setLessonMaterial] = useState("");
 
   // D. Business Assistant values
   const [businessType, setBusinessType] = useState("");
   const [businessTask, setBusinessTask] = useState("plan");
   const [budgetLimit, setBudgetLimit] = useState("");
-  // Rial Conversion Rates (State variables for simulated conversion)
+
+  // Rial Conversion Rates
   const [calcAmount, setCalcAmount] = useState<number | "">("");
   const [calcFrom, setCalcFrom] = useState<"sanaa" | "aden">("sanaa");
   const [calcOutput, setCalcOutput] = useState<string | null>(null);
@@ -66,7 +67,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
         })
       });
       const data = await res.json();
-      setResult(data.text);
+      setResult(data.text || "");
     } catch (e: any) {
       setResult(isAr ? "فشل التحويل الصوتي. طالع إعدادات الاتصال." : "Conversion failed.");
     } finally {
@@ -94,7 +95,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
         })
       });
       const data = await res.json();
-      setResult(data.text);
+      setResult(data.text || "");
     } catch (e: any) {
       setResult(isAr ? "لم نتمكن من صياغة المعاملة خطأ شبكة." : "Network writing error.");
     } finally {
@@ -121,7 +122,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
         })
       });
       const data = await res.json();
-      setResult(data.text);
+      setResult(data.text || "");
     } catch (e: any) {
       setResult(isAr ? "حدث خطأ تعليمي. المحاولة لاحقاً." : "Study error occurred.");
     } finally {
@@ -149,7 +150,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
         })
       });
       const data = await res.json();
-      setResult(data.text);
+      setResult(data.text || "");
     } catch (e: any) {
       setResult(isAr ? "خطأ في معالجة دراسة الجدوى." : "Business guide error.");
     } finally {
@@ -157,30 +158,23 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
     }
   };
 
-  // Calculate Exchange rates (Simulated real-time Yemen currencies)
-  // Sana'a old rial is approx 535 YER per USD.
-  // Aden new rial is approx 1820 YER per USD.
-  // Let's implement active Yemeni exchange market logic!
   const calculateCurrencyGap = () => {
     if (!calcAmount || isNaN(Number(calcAmount))) return;
     const val = Number(calcAmount);
-    
-    // Formula for conversion old -> new or new -> old
+
     const sanaaSellValue = 530;
     const adenSellValue = 1800;
-    
+
     if (calcFrom === "sanaa") {
-      // Sana'a old notes conversions
       const equivalentAden = val * (adenSellValue / sanaaSellValue);
       const usdValue = val / sanaaSellValue;
-      setCalcOutput(isAr 
+      setCalcOutput(isAr
         ? `${val.toLocaleString()} ريال قديم (صنعاء) يعادل حوالي ${Math.round(equivalentAden).toLocaleString()} ريال جديد (عدن)\nالمكافئ بالدولار: $${usdValue.toFixed(2)} USD`
-        : `${val.toLocaleString()} Old YER (Sanaa) equals approx ${Math.round(equivalentAden).toLocaleString()} New YER (Aden)\n($${usdValue.toFixed(2)} USD USD equivalent)`);
+        : `${val.toLocaleString()} Old YER (Sanaa) equals approx ${Math.round(equivalentAden).toLocaleString()} New YER (Aden)\n($${usdValue.toFixed(2)} USD equivalent)`);
     } else {
-      // Aden new notes conversions
       const equivalentSanaa = val * (sanaaSellValue / adenSellValue);
       const usdValue = val / adenSellValue;
-      setCalcOutput(isAr 
+      setCalcOutput(isAr
         ? `${val.toLocaleString()} ريال جديد (عدن) يعادل حوالي ${Math.round(equivalentSanaa).toLocaleString()} ريال قديم (صنعاء)\nالمكافئ بالدولار: $${usdValue.toFixed(2)} USD`
         : `${val.toLocaleString()} New YER (Aden) equals approx ${Math.round(equivalentSanaa).toLocaleString()} Old YER (Sanaa)\n($${usdValue.toFixed(2)} USD equivalent)`);
     }
@@ -188,7 +182,6 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
 
   return (
     <div className="flex-1 flex flex-col bg-[#161616] rounded-2xl overflow-hidden border border-white/5 shadow-xl font-sans" dir="rtl">
-      
       {/* Banner indicator */}
       <div className="px-6 py-5 bg-gradient-to-r from-[#D71920]/15 to-transparent border-b border-white/5 flex items-center justify-between">
         <div>
@@ -202,18 +195,17 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
         </span>
       </div>
 
-      {/* Grid structure: Left control panels / Right instant results display */}
+      {/* Grid structure */}
       <div className="grid grid-cols-1 lg:grid-cols-12 flex-1 min-h-[580px]">
-        
-        {/* Left Form column (Span 5) */}
+        {/* Left Form column */}
         <div className="lg:col-span-5 border-l border-white/5 bg-[#121212] p-5 flex flex-col space-y-5">
-          
           {/* Quick tab switcher headers */}
           <div className="grid grid-cols-4 gap-1.5 p-1 bg-white/5 rounded-xl text-xs font-bold ring-1 ring-white/10">
             <button
+              type="button"
               onClick={() => { setActiveTab("dialect"); setResult(""); }}
               className={`py-3.5 rounded-lg flex flex-col items-center gap-1.5 transition-all text-center cursor-pointer ${
-                activeTab === "dialect" ? "bg-[#D71920] text-white shadow-mdScale" : "text-gray-400 hover:text-white hover:bg-white/5"
+                activeTab === "dialect" ? "bg-[#D71920] text-white shadow-md" : "text-gray-400 hover:text-white hover:bg-white/5"
               }`}
             >
               <Languages className="w-5 h-5" />
@@ -221,6 +213,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             </button>
 
             <button
+              type="button"
               onClick={() => { setActiveTab("letters"); setResult(""); }}
               className={`py-3.5 rounded-lg flex flex-col items-center gap-1.5 transition-all text-center cursor-pointer ${
                 activeTab === "letters" ? "bg-[#D71920] text-white shadow-md" : "text-gray-400 hover:text-white hover:bg-white/5"
@@ -231,6 +224,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             </button>
 
             <button
+              type="button"
               onClick={() => { setActiveTab("students"); setResult(""); }}
               className={`py-3.5 rounded-lg flex flex-col items-center gap-1.5 transition-all text-center cursor-pointer ${
                 activeTab === "students" ? "bg-[#D71920] text-white shadow-md" : "text-gray-400 hover:text-white hover:bg-white/5"
@@ -241,6 +235,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             </button>
 
             <button
+              type="button"
               onClick={() => { setActiveTab("business"); setResult(""); }}
               className={`py-3.5 rounded-lg flex flex-col items-center gap-1.5 transition-all text-center cursor-pointer ${
                 activeTab === "business" ? "bg-[#D71920] text-white shadow-md" : "text-gray-400 hover:text-white hover:bg-white/5"
@@ -251,12 +246,11 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             </button>
           </div>
 
-          <div className="flex-grow scrollbar-none overflow-y-auto max-h-[460px] pr-0.5">
+          <div className="flex-grow overflow-y-auto max-h-[460px] pr-0.5" style={{ scrollbarWidth: 'none' }}>
             {/* CONTENT A: DIALECT CONVERTER */}
             {activeTab === "dialect" && (
               <div className="space-y-4">
                 <span className="text-xs text-[#D9A14E] font-extrabold uppercase tracking-wide">🗣️ محول اللهجات والكلمات اليمنية القديمة</span>
-                
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] text-gray-500 font-bold mb-1">من لهجة:</label>
@@ -315,7 +309,6 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             {activeTab === "letters" && (
               <div className="space-y-4">
                 <span className="text-xs text-[#D9A14E] font-extrabold uppercase tracking-wide">✍️ منسق المعاملات الحكومية والدواوين اليمنية</span>
-                
                 <div>
                   <label className="block text-[11px] text-gray-400 font-bold mb-1.5">نوع الطلب أو الخطاب:</label>
                   <select
@@ -380,7 +373,6 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             {activeTab === "students" && (
               <div className="space-y-4">
                 <span className="text-xs text-[#D9A14E] font-extrabold uppercase tracking-wide">🎓 مساعد الطالب وشرح الكتب الدراسية</span>
-                
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] text-gray-400 font-bold mb-1">الخدمة الدراسية:</label>
@@ -435,7 +427,6 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             {activeTab === "business" && (
               <div className="space-y-4">
                 <span className="text-xs text-[#D9A14E] font-extrabold uppercase tracking-wide">💼 مخطط المشاريع ومحول الريال اليمني</span>
-                
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-[11px] text-gray-400 font-bold mb-1">نوع النشاط التجاري:</label>
@@ -496,7 +487,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
                       <option value="aden">جديد (سعر عدن)</option>
                     </select>
                   </div>
-                  
+
                   <button
                     type="button"
                     onClick={calculateCurrencyGap}
@@ -506,7 +497,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
                   </button>
 
                   {calcOutput && (
-                    <div className="text-[10px] text-gray-300 font-mono leading-relaxed bg-[#121212] p-2.5 rounded border border-white/5 text-left dir-ltr">
+                    <div className="text-[10px] text-gray-300 font-mono leading-relaxed bg-[#121212] p-2.5 rounded border border-white/5 text-left" dir="ltr">
                       {calcOutput}
                     </div>
                   )}
@@ -524,16 +515,16 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
               </div>
             )}
           </div>
-
         </div>
 
-        {/* Right Output board (Span 7) */}
+        {/* Right Output board */}
         <div className="col-span-1 lg:col-span-7 bg-[#141414] p-6 flex flex-col justify-between">
           <div className="flex-1 overflow-y-auto space-y-4 max-h-[500px]">
             <div className="flex justify-between items-center border-b border-white/5 pb-3">
               <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">{isAr ? "الخطاب والأداة الناتجة من صاحبك الذكي" : "RESULT SHEET - SAHIBAK AI"}</span>
               {result && (
                 <button
+                  type="button"
                   onClick={handleCopy}
                   className="flex items-center gap-1 text-xs text-[#D9A14E] hover:text-white transition-colors cursor-pointer bg-white/5 px-2.5 py-1 rounded"
                 >
@@ -562,7 +553,7 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
                 </div>
                 <h4 className="text-xs font-bold text-white mb-1">{isAr ? "لا يوجد تقرير تولّد بعد" : "No generated sheets yet"}</h4>
                 <p className="text-[11px] leading-relaxed text-gray-400">
-                  {isAr 
+                  {isAr
                     ? "اختر الأداة المناسبة لك من القائمة، املأ الشروط والبيانات البسيطة، واضغط على البدء لتنساب الخطة وصياغتها فوراً."
                     : "Configure data items from the left side and request generation to view outcomes here."}
                 </p>
@@ -575,11 +566,8 @@ export default function YemeniToolsSection({ settings }: YemeniToolsSectionProps
             <Sparkles className="w-3 h-3 text-[#D9A14E]" />
             <span>{isAr ? "صاحبك الذكي مبني على أسس قانونية يمنية وتقاليد تجارية حرة." : "Designed to adhere to traditional Yemen business & administrative rules."}</span>
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }

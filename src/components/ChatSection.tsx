@@ -8,7 +8,7 @@ import {
   X, Headphones
 } from "lucide-react";
 import { MarkdownSimple } from "./MarkdownSimple";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ChatSectionProps {
   user: UserProfile;
@@ -1348,7 +1348,7 @@ export default function ChatSection({
                     dialect === "adeni" ? "العدنية" : 
                     dialect === "taizzi" ? "التعزية" : 
                     dialect === "hadhrami" ? "الحضرمية" : 
-                    dialect === "tihami" ? "التلمسانية" : 
+                    dialect === "tihami" ? "التهامية" : 
                     dialect === "maribi" ? "المأربية" : 
                     dialect === "ibbi" ? "الإبية" : 
                     dialect === "shabwani" ? "الشبوانية" : "العامية"

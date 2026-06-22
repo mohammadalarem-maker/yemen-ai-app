@@ -16,15 +16,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
-      - name: Install Project Dependencies
-        run: npm install
+      - name: Install All Dependencies
+        run: |
+          npm install
+          npm install @capacitor/core @capacitor/cli @capacitor/android
       - name: Build Web App
         env:
-          GEMINI_API_KEY: "SIMULATION_MODE"
-        run: npm install @rollup/rollup-linux-x64-gnu && npm run build --if-present
+          USE_SIMULATION: "true"
+        run: npm run build
       - name: Add Android Platform
-        run: rm -rf android && npx cap add android
+        run: |
+          rm -rf android
+          npx cap add android --force
       - name: Sync Capacitor
         run: npx cap sync
       - name: Fix Kotlin Duplicate Classes Conflict

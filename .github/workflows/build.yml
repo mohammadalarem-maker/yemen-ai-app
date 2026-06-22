@@ -24,11 +24,14 @@ jobs:
           USE_SIMULATION: "true"
         run: npm run build
 
+      - name: Install Capacitor CLI
+        run: npm install @capacitor/cli @capacitor/android --legacy-peer-deps
+
       - name: Add Android Platform
         run: |
           rm -rf android
-          npx cap add android --force
-          npx cap sync
+          npx @capacitor/cli add android --force
+          npx @capacitor/cli sync
 
       - name: Fix Kotlin Duplicate Classes Conflict
         run: |

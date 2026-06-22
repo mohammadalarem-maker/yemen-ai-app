@@ -24,8 +24,8 @@ jobs:
           USE_SIMULATION: "true"
         run: npm run build
 
-      - name: Install Capacitor CLI
-        run: npm install @capacitor/cli @capacitor/android --legacy-peer-deps
+      - name: Install Capacitor Core and CLI
+        run: npm install @capacitor/cli @capacitor/android @capacitor/core --legacy-peer-deps
 
       - name: Add Android Platform
         run: |

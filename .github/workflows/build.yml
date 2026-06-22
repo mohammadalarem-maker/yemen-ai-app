@@ -21,7 +21,8 @@ jobs:
 
       - name: Build Web App
         env:
-          USE_SIMULATION: "true"
+          USE_SIMULATION: "false"
+          VITE_BACKEND_URL: "https://yemen-ai-app-2.onrender.com"
         run: npm run build
 
       - name: Install Capacitor Core and CLI

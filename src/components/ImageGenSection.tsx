@@ -74,7 +74,7 @@ export default function ImageGenSection({ settings, user, onIncrementMessages }:
     onIncrementMessages();
 
     try {
-      const res = await fetch("/api/gemini/generate-image", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "") + "/api/gemini/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

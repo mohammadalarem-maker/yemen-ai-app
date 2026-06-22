@@ -219,7 +219,7 @@ export default function ChatSection({
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await fetch("/api/gemini/chat", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "") + "/api/gemini/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -509,7 +509,7 @@ export default function ChatSection({
     })) || [];
 
     try {
-      const res = await fetch("/api/gemini/chat", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "") + "/api/gemini/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -564,7 +564,7 @@ export default function ChatSection({
   // Standard Voice Mode Speech Player
   const speakVoiceModeResponse = async (textToSpeak: string) => {
     try {
-      const res = await fetch("/api/gemini/tts", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "") + "/api/gemini/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: textToSpeak.substring(0, 400) })
@@ -719,7 +719,7 @@ export default function ChatSection({
 
     // Try standard server-side Gemini TTS first
     try {
-      const res = await fetch("/api/gemini/tts", {
+      const res = await fetch((import.meta.env.VITE_BACKEND_URL || "") + "/api/gemini/tts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: text.substring(0, 400) }) // Limit size for speed

@@ -30,7 +30,7 @@ jobs:
       - name: Add Android Platform
         run: |
           rm -rf android
-          npx @capacitor/cli add android --force
+          npx @capacitor/cli add android
           npx @capacitor/cli sync
 
       - name: Fix Kotlin Duplicate Classes Conflict

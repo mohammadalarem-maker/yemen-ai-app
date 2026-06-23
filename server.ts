@@ -34,7 +34,7 @@ app.use(express.json({ limit: "50mb" }));
 // Lazy initializer for GoogleGenAI to prevent crashing if the key is missing
 let aiClient: GoogleGenAI | null = null;
 function getGeminiClient(): GoogleGenAI | null {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY" || apiKey.trim() === "") {
     return null;
   }

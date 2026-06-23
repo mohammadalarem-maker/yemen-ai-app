@@ -177,7 +177,7 @@ You should parse user's query and naturally act as their smart Yemeni friend (ص
 
     // Start Chat
     const chat = client.chats.create({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       config: {
         systemInstruction,
         temperature: 0.8,
@@ -240,7 +240,7 @@ To dialect: "${to}"
 Please provide only the converted text and a brief, warm 1-sentence cultural explanation of any unique words used. Always respond in beautiful Arabic. Use Markdown.`;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         temperature: 0.5,
@@ -296,7 +296,7 @@ Details / Core Purpose: ${details}
 The letter must follow Yemeni styles (starting with "الجمهورية اليمنية", "بسم الله الرحمن الرحيم", appropriate governmental formatting, polite and extremely respectful language like "حفظكم الله ورعاكم", "نهديكم أطيب التحايا", ending with "مقدم الطلب وتحرير تاريخه والاسم ورقم التلفون"). Give a production-ready template that can be easily copied.`;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         temperature: 0.4,
@@ -347,7 +347,7 @@ Problem: "${materialText}"`
 
     const promptText = prompts[task] || prompts.summary;
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: promptText,
       config: {
         temperature: 0.6,
@@ -391,7 +391,7 @@ Language: "${language === "ar" ? "Arabic" : "English"}"
 Include cultural wisdom, Yemeni trade dynamics, realistic marketing channels in Yemen (like WhatsApp marketing, word of mouth, beautiful Facebook posts), and clear financial tips. Respond in the requested language.`;
 
     const response = await client.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         temperature: 0.7,

@@ -592,7 +592,7 @@ export default function ChatSection({
           return;
         }
       }
-    } catch (err) {
+    } catch (err) { alert("📡 خطأ الاتصال الفعلي هو: " + (err.message || err)); 
       console.warn("API voice synthesizer issue, using offline web native speech:", err);
     }
 
